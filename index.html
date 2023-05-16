@@ -58,7 +58,7 @@
         .child-img {
             width: 100%;
             height: 100%;
-            padding: 5px;
+            padding: 0px;
             object-fit: cover;
         }
 
@@ -85,16 +85,7 @@
     <div class="container ">
         <form class="row g-3">
             <div class="col-md-4">
-                <!-- magnification using radio  -->
-                <!-- <div>
-                    <input type="radio" name="magnification" value="100" id="mag-100">
-                    <label for="mag-100">100x</label>
-                    <input type="radio" name="magnification" value="200" id="mag-200">
-                    <label for="mag-200">200x</label>
-                    <input type="radio" name="magnification" value="500" id="mag-500">
-                    <label for="mag-500">500x</label>
-                </div> -->
-
+               
                 <!-- magnification using select   -->
                 <label for="magnification" class="form-label">What is the magnification required?</label>
                 <select id="magnification" class="form-select">
@@ -111,7 +102,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="form-label">Objective Lens</label>
+                <label class="form-label">Please select correct Objective Lens</label>
                 <div>
                     <input type="radio" id="lense10" name="objectiveLense" value="10" class="form-check-input">
                     <label for="lense10" class="form-check-label">10X</label>
@@ -128,14 +119,14 @@
 
             <div class="col-md-12">
                 <!-- This button only checking lense compatible or not it does not care about image -->
-                <!-- <button type="button" id="checkCompatibilityButton" class="btn btn-primary"
+                <button type="button" id="checkCompatibilityButton" class="btn btn-primary"
                     onclick="checkCompatibility()">Check Lense compatibility
-                </button> -->
+                </button>
             </div>
 
 
             <div class="">
-                <label for="cover" >  Please select the correct focus image by sliding the slider bar </label>
+                <label for="cover"> Please select the correct focus image by sliding the slider bar </label>
                 <div class="main-scroll-div">
                     <div class="cover">
                         <div class="scroll-images">
@@ -144,48 +135,11 @@
                                 <input type="radio" name="image" id="image1" value="1000">
                                 <label for="image1"><img class="child-img" src="images\100x\1.jpg" class="slide"
                                         alt="image"></label>
-                            </div>
-                            <div class="child">
-                                <input type="radio" name="image" id="image1" value="">
-                                <label for="image1"><img class="child-img" src="images\100x\2.jpg" class="slide"
-                                        alt="image"></label>
-                            </div>
-
-                            <div class="child">
-                                <input type="radio" name="image" id="image1" value="">
-                                <label for="image1"><img class="child-img" src="images\100x\3.jpg" class="slide"
-                                        alt="image"></label>
-                            </div>
-
-                            <div class="child">
-                                <input type="radio" name="image" id="image5" value="4000">
-                                <label for="image5"><img class="child-img" src="images\200x\1.jpg" class="slide"
-                                        alt="image"></label>
-                            </div>
-                            <div class="child">
-                                <input type="radio" name="image" id="image5" value="">
-                                <label for="image5"><img class="child-img" src="images\200x\2.jpg" class="slide"
-                                        alt="image"></label>
-                            </div>
-                            <div class="child">
-                                <input type="radio" name="image" id="image8" value="25000">
-                                <label for="image8"><img class="child-img" src="images\100x\1.jpg" class="slide"
-                                        alt="image"></label>
-                            </div>
-                            <div class="child">
-                                <input type="radio" name="image" id="image8" value="">
-                                <label for="image8"><img class="child-img" src="images\100x\2.jpg" class="slide"
-                                        alt="image"></label>
-                            </div> -->
+                            </div>  -->
 
                         </div>
                     </div>
                 </div>
-
-                <!--for both image and lense checking 
-                    if lense compatible or not doesnot matter it will check image
-                    if user select wrong combination lense so it will show incorrect image while it should show incorrect lense combination-->
-                <!-- <button type="button" onclick="checkingImage()" class="btn btn-primary m-3">Submit</button> -->
 
                 <!--for both image and lense checking 
                     if lense fail so do not check image if image correct then check image
@@ -198,8 +152,6 @@
     </div>
 
 
-
-
     <script>
 
         // this will use in event listner 
@@ -209,81 +161,39 @@
         const selectedMagnification = parseInt(magnificationSelect.value);
 
 
-        //  Logic to  render specefic  the images
-        // Get the magnification radio buttons and add an event listener to each of them
+        // check lense compatibility though onclick 
+        function checkCompatibility() {
+            const magnificationSelect = document.querySelector('#magnification');
+            const objectiveRadios = document.querySelectorAll('input[name="objectiveLense"]');
+            const selectedMagnification = parseInt(magnificationSelect.value);
+            let selectedObjective;
 
-        // const magnificationRadios = document.querySelectorAll('input[name="magnification"]');
-        // magnificationRadios.forEach((radio) => {
-        //     radio.addEventListener('change', () => {
-        //         const magnification = parseInt(radio.value);
+            objectiveRadios.forEach((radio) => {
+                if (radio.checked) {
+                    selectedObjective = parseInt(radio.value);
+                }
+            });
+            if (selectedObjective === undefined) {
+                alert("Please Choose a objective lense")
+            } else {
+                if (selectedMagnification === 100 && selectedObjective === 10) {
+                    alert('Magnification and objective lens are compatible');
+                    renderImages(selectedMagnification);
+                } else if (selectedMagnification === 200 && selectedObjective === 20) {
+                    alert('Magnification and objective lens are compatible');
+                    renderImages(selectedMagnification);
+                } else if (selectedMagnification === 500 && selectedObjective === 50) {
+                    alert('Magnification and objective lens are compatible');
+                    renderImages(selectedMagnification);
+                } else {
+                    alert('Error: Magnification and objective lens are not compatible');
+                }
+            }
 
-        //         // Get the scroll-images container element
-        //         const scrollImages = document.querySelector(".scroll-images");
-
-        //         // Remove any previously added images from the container
-        //         while (scrollImages.firstChild) {
-        //             scrollImages.removeChild(scrollImages.firstChild);
-        //         }
-
-        //         // Loop through the images and add them to the container based on the selected magnification
-        //         for (let i = 1; i <= 48; i++) {
-        //             const newDiv = document.createElement("div");
-        //             const newInput = document.createElement('input');
-        //             const newInputLabel = document.createElement('label');
-        //             const newImage = document.createElement('img');
-
-        //             newDiv.className = "child";
-        //             newInput.type = 'radio';
-        //             newInput.name = "image";
-        //             newInput.id = `image${i}`;
-        //             newInputLabel.setAttribute('for', `image${i}`);
-        //             newImage.className = "slide";
-        //             newImage.className = "child-img";
-
-        //             if (magnification === 100 && i <= 15) {
-        //                 newInput.value = "1000";
-        //                 newImage.src = `images/100x/${i}.jpg`;
-        //                 newInputLabel.appendChild(newImage);
-        //                 newDiv.appendChild(newInput);
-        //                 newDiv.appendChild(newInputLabel);
-        //                 scrollImages.appendChild(newDiv);
-        //             } else if (magnification === 200 && i > 15 && i <= 30) {
-        //                 let z = 15 - i;
-        //                 if (z < 0) {
-        //                     z = z * -1;
-        //                 }
-        //                 newInput.value = "4000";
-        //                 newImage.src = `images/200x/${z}.jpg`;
-        //                 newInputLabel.appendChild(newImage);
-        //                 newDiv.appendChild(newInput);
-        //                 newDiv.appendChild(newInputLabel);
-        //                 scrollImages.appendChild(newDiv);
-        //             } else if (magnification === 500 && i > 45) {
-        //                 let z = 48 - i;
-        //                 if (z < 0) {
-        //                     z = z * -1;
-        //                 }
-        //                 newInput.value = "25000";
-        //                 newImage.src = `images/500x/${z}.jpg`;
-        //                 newInputLabel.appendChild(newImage);
-        //                 newDiv.appendChild(newInput);
-        //                 newDiv.appendChild(newInputLabel);
-        //                 scrollImages.appendChild(newDiv);
-        //             }
-        //         }
-        //     });
-        // });
+        }
 
 
-
-
-        // Render particuler image 
-        // Get the magnification radio buttons and add an event listener to each of the
-
-        magnificationSelect.addEventListener('change', () => {
-            const magnification = parseInt(magnificationSelect.value);
-
-            // Get the scroll-images container element
+        function renderImages(magnification) {
             const scrollImages = document.querySelector(".scroll-images");
 
             // Remove any previously added images from the container
@@ -307,7 +217,6 @@
                 newImage.className = "child-img";
 
                 if (magnification === 100 && i <= 15) {
-                    // newInput.value = "1000";
                     newImage.src = `images/100x/${i}.jpg`;
                     newInputLabel.appendChild(newImage);
                     newDiv.appendChild(newInput);
@@ -318,69 +227,33 @@
                     if (z < 0) {
                         z = z * -1;
                     }
-                    // newInput.value = "4000";
                     newImage.src = `images/200x/${z}.jpg`;
                     newInputLabel.appendChild(newImage);
                     newDiv.appendChild(newInput);
                     newDiv.appendChild(newInputLabel);
                     scrollImages.appendChild(newDiv);
-                } else if (magnification === 500 && i > 30 && i <= 45 ) {
+                } else if (magnification === 500 && i > 30 && i <= 50) {
                     let z = 30 - i;
                     if (z < 0) {
                         z = z * -1;
                     }
-                    // newInput.value = "25000";
                     newImage.src = `images/500x/${z}.jpg`;
                     newInputLabel.appendChild(newImage);
                     newDiv.appendChild(newInput);
                     newDiv.appendChild(newInputLabel);
                     scrollImages.appendChild(newDiv);
-                }
-                // Select the desired images based on the magnification and image number criteria
-                if (magnification === 100 && (i === 8 || i === 9)){
+                } if (magnification === 100 && (i === 8 || i === 9)) {
                     newInput.value = "1000";
-                } 
-                if (magnification === 200 && (i === 26 || i === 27)){
+                }
+                if (magnification === 200 && (i === 26 || i === 27)) {
                     newInput.value = "4000";
-                } 
-                if (magnification === 500 && i === 37){
+                }
+                if (magnification === 500 && i === 37) {
                     newInput.value = "25000";
-                }       
-            }
-        });
-
-
-
-
-
-
-        // check lense compatibility though onclick 
-        function checkCompatibility() {
-            const magnificationSelect = document.querySelector('#magnification');
-            const objectiveRadios = document.querySelectorAll('input[name="objectiveLense"]');
-            const selectedMagnification = parseInt(magnificationSelect.value);
-            let selectedObjective;
-
-            objectiveRadios.forEach((radio) => {
-                if (radio.checked) {
-                    selectedObjective = parseInt(radio.value);
-                }
-            });
-            if (selectedObjective === undefined) {
-                alert("Please Choose a objective lense")
-            } else {
-                if (selectedMagnification === 100 && selectedObjective === 10) {
-                    alert('Magnification and objective lens are compatible');
-                } else if (selectedMagnification === 200 && selectedObjective === 20) {
-                    alert('Magnification and objective lens are compatible');
-                } else if (selectedMagnification === 500 && selectedObjective === 50) {
-                    alert('Magnification and objective lens are compatible');
-                } else {
-                    alert('Error: Magnification and objective lens are not compatible');
                 }
             }
-
         }
+
 
         function completeCompactibilityCheck() {
             const magnificationSelect = document.querySelector('#magnification');

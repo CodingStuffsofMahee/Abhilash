@@ -74,6 +74,11 @@
             scroll-snap-align: start;
         }
 
+        input[type="radio"]:focus {
+            border: 2px solid red;
+        }
+
+
         .scroll-images::-webkit-scrollbar {
             display: none;
         }
@@ -85,7 +90,7 @@
     <div class="container ">
         <form class="row g-3">
             <div class="col-md-4">
-               
+
                 <!-- magnification using select   -->
                 <label for="magnification" class="form-label">What is the magnification required?</label>
                 <select id="magnification" class="form-select">
@@ -124,31 +129,47 @@
                 </button>
             </div>
 
+            <div id="carousel">
+                <button id="prev">Previous</button>
+                <button id="next">Next</button>
+                <div id="image-container">
+                    <input type="radio" name="image" id="" class="imageInputTag" value="">
+                    <label for="" class="imageInputLabel">
+                        <img class="current-image" id="" height="200px" src="" alt="">
+                    </label>
+                </div>
+            </div>
 
-            <div class="">
+
+            <!-- <div class="">
                 <label for="cover"> Please select the correct focus image by sliding the slider bar </label>
                 <div class="main-scroll-div">
                     <div class="cover">
                         <div class="scroll-images">
 
-                            <!-- <div class="child">
+                            <div class="child">
                                 <input type="radio" name="image" id="image1" value="1000">
                                 <label for="image1"><img class="child-img" src="images\100x\1.jpg" class="slide"
                                         alt="image"></label>
-                            </div>  -->
+                            </div> 
 
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <!--for both image and lense checking 
+            <!--for both image and lense checking 
                     if lense fail so do not check image if image correct then check image
                     this button is enough remove above submit button-->
-                <button type="button" onclick="completeCompactibilityCheck()"
-                    class="btn btn-primary m-3">Submit</button>
+            <button type="button" onclick="completeCompactibilityCheck()" class="btn btn-primary m-3">Submit</button>
 
-            </div>
-        </form>
+    </div>
+
+
+
+
+
+
+    </form>
     </div>
 
 
@@ -159,6 +180,8 @@
         const objectiveRadios = document.querySelectorAll('input[name="objectiveLense"]');
         const checkCompatibilityButton = document.querySelector('#checkCompatibilityButton');
         const selectedMagnification = parseInt(magnificationSelect.value);
+
+
 
 
         // check lense compatibility though onclick 
@@ -178,13 +201,16 @@
             } else {
                 if (selectedMagnification === 100 && selectedObjective === 10) {
                     alert('Magnification and objective lens are compatible');
-                    renderImages(selectedMagnification);
+                    // renderImages(selectedMagnification);
+                    renderImagesAsCarousel(selectedMagnification)
                 } else if (selectedMagnification === 200 && selectedObjective === 20) {
                     alert('Magnification and objective lens are compatible');
-                    renderImages(selectedMagnification);
+                    // renderImages(selectedMagnification);
+                    renderImagesAsCarousel(selectedMagnification)
                 } else if (selectedMagnification === 500 && selectedObjective === 50) {
                     alert('Magnification and objective lens are compatible');
-                    renderImages(selectedMagnification);
+                    // renderImages(selectedMagnification);
+                    renderImagesAsCarousel(selectedMagnification)
                 } else {
                     alert('Error: Magnification and objective lens are not compatible');
                 }
@@ -193,67 +219,67 @@
         }
 
 
-        function renderImages(magnification) {
-            const scrollImages = document.querySelector(".scroll-images");
+        // function renderImages(magnification) {
+        //     const scrollImages = document.querySelector(".scroll-images");
 
-            // Remove any previously added images from the container
-            while (scrollImages.firstChild) {
-                scrollImages.removeChild(scrollImages.firstChild);
-            }
+        //     // Remove any previously added images from the container
+        //     while (scrollImages.firstChild) {
+        //         scrollImages.removeChild(scrollImages.firstChild);
+        //     }
 
-            // Loop through the images and add them to the container based on the selected magnification
-            for (let i = 1; i <= 50; i++) {
-                const newDiv = document.createElement("div");
-                const newInput = document.createElement('input');
-                const newInputLabel = document.createElement('label');
-                const newImage = document.createElement('img');
+        //     // Loop through the images and add them to the container based on the selected magnification
+        //     for (let i = 1; i <= 50; i++) {
+        //         const newDiv = document.createElement("div");
+        //         const newInput = document.createElement('input');
+        //         const newInputLabel = document.createElement('label');
+        //         const newImage = document.createElement('img');
 
-                newDiv.className = "child";
-                newInput.type = 'radio';
-                newInput.name = "image";
-                newInput.id = `image${i}`;
-                newInputLabel.setAttribute('for', `image${i}`);
-                newImage.className = "slide";
-                newImage.className = "child-img";
+        //         newDiv.className = "child";
+        //         newInput.type = 'radio';
+        //         newInput.name = "image";
+        //         newInput.id = `image${i}`;
+        //         newInputLabel.setAttribute('for', `image${i}`);
+        //         newImage.className = "slide";
+        //         newImage.className = "child-img";
 
-                if (magnification === 100 && i <= 15) {
-                    newImage.src = `images/100x/${i}.jpg`;
-                    newInputLabel.appendChild(newImage);
-                    newDiv.appendChild(newInput);
-                    newDiv.appendChild(newInputLabel);
-                    scrollImages.appendChild(newDiv);
-                } else if (magnification === 200 && i > 15 && i <= 30) {
-                    let z = 15 - i;
-                    if (z < 0) {
-                        z = z * -1;
-                    }
-                    newImage.src = `images/200x/${z}.jpg`;
-                    newInputLabel.appendChild(newImage);
-                    newDiv.appendChild(newInput);
-                    newDiv.appendChild(newInputLabel);
-                    scrollImages.appendChild(newDiv);
-                } else if (magnification === 500 && i > 30 && i <= 50) {
-                    let z = 30 - i;
-                    if (z < 0) {
-                        z = z * -1;
-                    }
-                    newImage.src = `images/500x/${z}.jpg`;
-                    newInputLabel.appendChild(newImage);
-                    newDiv.appendChild(newInput);
-                    newDiv.appendChild(newInputLabel);
-                    scrollImages.appendChild(newDiv);
-                } if (magnification === 100 && (i === 8 || i === 9)) {
-                    newInput.value = "1000";
-                }
-                if (magnification === 200 && (i === 26 || i === 27)) {
-                    newInput.value = "4000";
-                }
-                if (magnification === 500 && i === 37) {
-                    newInput.value = "25000";
-                }
-            }
-        }
+        //         if (magnification === 100 && i <= 15) {
+        //             newImage.src = `images/100x/${i}.jpg`;
+        //             newInputLabel.appendChild(newImage);
+        //             newDiv.appendChild(newInput);
+        //             newDiv.appendChild(newInputLabel);
+        //             scrollImages.appendChild(newDiv);
+        //         } else if (magnification === 200 && i > 15 && i <= 30) {
+        //             let z = 15 - i;
+        //             if (z < 0) {
+        //                 z = z * -1;
+        //             }
+        //             newImage.src = `images/200x/${z}.jpg`;
+        //             newInputLabel.appendChild(newImage);
+        //             newDiv.appendChild(newInput);
+        //             newDiv.appendChild(newInputLabel);
+        //             scrollImages.appendChild(newDiv);
+        //         } else if (magnification === 500 && i > 30 && i <= 50) {
+        //             let z = 30 - i;
+        //             if (z < 0) {
+        //                 z = z * -1;
+        //             }
+        //             newImage.src = `images/500x/${z}.jpg`;
+        //             newInputLabel.appendChild(newImage);
+        //             newDiv.appendChild(newInput);
+        //             newDiv.appendChild(newInputLabel);
+        //             scrollImages.appendChild(newDiv);
 
+        //         } if (magnification === 100 && (i === 8 || i === 9)) {
+        //             newInput.value = "1000";
+        //         }
+        //         if (magnification === 200 && (i === 26 || i === 27)) {
+        //             newInput.value = "4000";
+        //         }
+        //         if (magnification === 500 && i === 37) {
+        //             newInput.value = "25000";
+        //         }
+        //     }
+        // }
 
         function completeCompactibilityCheck() {
             const magnificationSelect = document.querySelector('#magnification');
@@ -326,6 +352,148 @@
                 }
             }
         }
+
+
+        function renderImagesAsCarousel(magnification) {
+            // Image URLs
+            const imageUrls = {
+                '100x': [
+                    "images/100x/1.jpg",
+                    "images/100x/2.jpg",
+                    "images/100x/3.jpg",
+                    "images/100x/4.jpg",
+                    "images/100x/5.jpg",
+                    "images/100x/6.jpg",
+                    "images/100x/7.jpg",
+                    "images/100x/8.jpg",
+                    "images/100x/9.jpg",
+                    "images/100x/10.jpg",
+                    "images/100x/11.jpg",
+                    "images/100x/12.jpg",
+                    "images/100x/13.jpg",
+                    "images/100x/14.jpg",
+                    "images/100x/15.jpg",
+                ],
+                '200x': [
+                    "images/200x/1.jpg",
+                    "images/200x/2.jpg",
+                    "images/200x/3.jpg"
+                ],
+                '500x': [
+                    "images/500x/1.jpg",
+                    "images/500x/2.jpg",
+                    "images/500x/3.jpg"
+                ],
+
+            }
+
+
+            const carousel = document.getElementById("carousel");
+            const prevButton = document.getElementById("prev");
+            const nextButton = document.getElementById("next");
+            const imageContainer = document.getElementById("image-container");
+            const currentImage = document.getElementsByClassName("current-image")[0];
+            const imageInput = document.getElementsByClassName('imageInputTag')[0]
+            const imageInputLabel = document.getElementsByClassName('imageInputLabel')[0]
+
+            let currentImageIndex = 0;
+
+            const imageSelector = ImageBundleChooser(magnification);
+
+            // Function to load the next image
+            function loadNextImage() {
+                event.preventDefault()
+                // imageInput.checked=false
+                console.log(currentImageIndex)
+
+                if (currentImageIndex < imageUrls[imageSelector].length - 1) {
+                    imageInput.checked = false
+                    currentImageIndex++;
+                    imageInput.setAttribute('id', 'image' + currentImageIndex)
+                    imageInputLabel.setAttribute('for', 'image' + currentImageIndex)
+                    currentImage.src = imageUrls[imageSelector][currentImageIndex];
+                    correctImage(imageSelector, (imageInput.id).substring(5))
+                    console.log("Correct Image:-" + (imageInput.id).substring(5))
+                }
+            }
+
+            // Event listener for the "next" button
+            nextButton.addEventListener("click", loadNextImage);
+
+            function loadPreviousImage() {
+                event.preventDefault()
+
+                if (currentImageIndex > 0) {
+                    imageInput.checked = false
+                    currentImageIndex--;
+                    imageInput.setAttribute('id', 'image' + currentImageIndex)
+                    imageInputLabel.setAttribute('for', 'image' + currentImageIndex)
+                    
+                    currentImage.src = imageUrls[imageSelector][currentImageIndex];
+                    correctImage(imageSelector, (imageInput.id).substring(5))
+                    // correctImage(imageSelector, imageInput.id)
+
+                }
+            }
+
+            // Event listener for the "prev" button
+            prevButton.addEventListener("click", loadPreviousImage);
+
+            // Function to load the initial image
+            function loadInitialImage() {
+                console.log(imageUrls[imageSelector])
+                imageInput.setAttribute('id', 'image' + currentImageIndex)
+                imageInputLabel.setAttribute('for', 'image' + currentImageIndex)
+
+                currentImage.src = imageUrls[imageSelector][currentImageIndex];
+                correctImage(imageSelector, (imageInput.id).substring(5))
+            }
+
+
+            // Load the initial image
+            loadInitialImage();
+
+        }
+        function ImageBundleChooser(magnification) {
+            if (magnification == 100) {
+                return '100x';
+            }
+            if (magnification == 200) {
+                return '200x'
+            }
+            if (magnification == 500) {
+                return '500x'
+            }
+
+        }
+        function correctImage(magnification, imageId) {
+            console.log("from fn:-"+imageId)
+            console.log("from fn:-"+magnification)
+            magnification=magnification.substring(0,3)
+            const imageInput = document.getElementsByClassName('imageInputTag')[0]
+            if (magnification == 100 && (imageId == 8 || imageId == 9)) {
+            console.log("from 100x:-"+imageId)
+                imageInput.setAttribute('value', '1000')
+                return '100x';
+            }
+            if (magnification == 200 && (imageId == 26 || imageId == 27)) {
+                imageInput.setAttribute('value', '4000')
+                return '200x'
+            }
+            if (magnification == 500 && imageId == 37) {
+                imageInput.setAttribute('value', '25000')
+                return '500x'
+            }
+            else{
+                imageInput.setAttribute('value', '')
+
+            }
+        }
+        console.log(ImageBundleChooser(100))
+
+
+
+
 
     </script>
 
